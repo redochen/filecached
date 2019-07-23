@@ -2,10 +2,9 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	. "github.com/redochen/filecached/models"
 	. "github.com/redochen/filecached/util"
-	"github.com/redochen/tools/log"
+	. "github.com/redochen/tools/log"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -16,7 +15,7 @@ import (
 func WatchDirectory(directory *Directory) {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Logger.Error("[WatchDirectory] ", fmt.Sprintf("%v; stack: %s", err, debug.Stack()))
+			Logger.ErrorEx("WatchDirectory", "%v; stack: %s", err, debug.Stack())
 		}
 	}()
 
@@ -50,7 +49,7 @@ func checkDirectory(directory *Directory) {
 	})
 
 	if err != nil {
-		log.Logger.Error("[checkDirectory] filepath.Walk error: ", err.Error())
+		Logger.ErrorEx("checkDirectory", "filepath.Walk error: %s", err.Error())
 	}
 }
 

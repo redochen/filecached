@@ -2,10 +2,8 @@ package util
 
 import (
 	"errors"
-	"fmt"
-	"github.com/redochen/tools/log"
+	. "github.com/redochen/tools/log"
 	"os"
-	"time"
 )
 
 //创建目录
@@ -29,14 +27,13 @@ func DeleteFilePhysically(name, path string) error {
 	}
 
 	err := os.Remove(path)
-	ts := time.Now().Local().Format("01-02 03:04:05")
+	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		l := fmt.Sprintf("[DeleteFilePhysically] os.Remove《%s》error: ", name)
-		log.Logger.Error(l, err.Error())
+		Logger.ErrorEx("DeleteFilePhysically", "os.Remove《%s》error: %s", name, err.Error())
 		return err
 	} else {
-		fmt.Printf("[%s]《%s》has been deleted.\n", ts, name)
+		//Logger.DebugEx("[%s]《%s》has been deleted.\n", ts, name)
 		return nil
 	}
 }
@@ -49,14 +46,13 @@ func MoveFileToRecycleBin(name, path, recycleBin string) error {
 
 	p := recycleBin + "/" + name
 	err := os.Rename(path, p)
-	ts := time.Now().Local().Format("01-02 03:04:05")
+	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		l := fmt.Sprintf("[MoveFileToRecyclebin] os.Rename《%s》error: ", name)
-		log.Logger.Error(l, err.Error())
+		Logger.ErrorEx("MoveFileToRecycleBin", "os.Rename《%s》error: %s", name, err.Error())
 		return err
 	} else {
-		fmt.Printf("[%s]《%s》has been removed.\n", ts, name)
+		//Logger.DebugEx("[%s]《%s》has been removed.\n", ts, name)
 		return nil
 	}
 }
