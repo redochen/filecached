@@ -4,18 +4,14 @@ import (
 	cfg "github.com/redochen/filecached/config"
 	. "github.com/redochen/filecached/models"
 	"github.com/redochen/tools/file"
+	. "github.com/redochen/tools/function"
 	. "github.com/redochen/tools/log"
 	"os"
-	"runtime/debug"
 )
 
 //设置缓存
 func SetCache(category, filename string, data []byte) bool {
-	defer func() {
-		if err := recover(); err != nil {
-			Logger.ErrorEx("SetCache", "%v; stack: %s", err, debug.Stack())
-		}
-	}()
+	defer CheckPanic()
 
 	d := getDirectory(category)
 	if nil == d {
@@ -31,7 +27,7 @@ func SetCache(category, filename string, data []byte) bool {
 
 	f, err := file.Open(p, true, false)
 	if err != nil {
-		Logger.ErrorEx("SetCache", "file.Open 《%s》 error: %s", p, err.Error())
+		Logger.Errorf("file.Open 《%s》 error: %s", p, err.Error())
 		return false
 	}
 
@@ -39,7 +35,7 @@ func SetCache(category, filename string, data []byte) bool {
 
 	_, err = f.WriteEx(data, 0, cfg.UseGzip)
 	if err != nil {
-		Logger.ErrorEx("SetCache", "fe.WriteEx 《%s》 error: %s", p, err.Error())
+		Logger.Errorf("fe.WriteEx 《%s》 error: %s", p, err.Error())
 		return false
 	}
 
@@ -48,11 +44,7 @@ func SetCache(category, filename string, data []byte) bool {
 
 //获取缓存
 func GetCache(category, filename string) []byte {
-	defer func() {
-		if err := recover(); err != nil {
-			Logger.ErrorEx("GetCache", "%v; stack: %s", err, debug.Stack())
-		}
-	}()
+	defer CheckPanic()
 
 	d := getDirectory(category)
 	if nil == d {
@@ -63,7 +55,7 @@ func GetCache(category, filename string) []byte {
 
 	f, err := file.Open(p, false, true)
 	if err != nil {
-		Logger.ErrorEx("GetCache", "file.Open 《%s》 error: %s", p, err.Error())
+		Logger.Errorf("file.Open 《%s》 error: %s", p, err.Error())
 		return nil
 	}
 
@@ -71,7 +63,7 @@ func GetCache(category, filename string) []byte {
 
 	len, err := f.Size()
 	if len <= 0 || err != nil {
-		Logger.ErrorEx("GetCache", "fe.Size 《%s》 error: %s", p, err.Error())
+		Logger.Errorf("fe.Size 《%s》 error: %s", p, err.Error())
 		return nil
 	}
 
@@ -79,7 +71,7 @@ func GetCache(category, filename string) []byte {
 
 	_, err = f.ReadEx(data, 0, cfg.UseGzip)
 	if err != nil {
-		Logger.ErrorEx("GetCache", "fe.ReadEx 《%s》 error: %s", p, err.Error())
+		Logger.Errorf("fe.ReadEx 《%s》 error: %s", p, err.Error())
 	}
 
 	return data

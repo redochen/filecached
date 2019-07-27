@@ -30,7 +30,7 @@ func DeleteFilePhysically(name, path string) error {
 	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		Logger.ErrorEx("DeleteFilePhysically", "os.Remove《%s》error: %s", name, err.Error())
+		Logger.Errorf("os.Remove《%s》error: %s", name, err.Error())
 		return err
 	} else {
 		//Logger.DebugEx("[%s]《%s》has been deleted.\n", ts, name)
@@ -49,7 +49,7 @@ func MoveFileToRecycleBin(name, path, recycleBin string) error {
 	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		Logger.ErrorEx("MoveFileToRecycleBin", "os.Rename《%s》error: %s", name, err.Error())
+		Logger.Errorf("os.Rename《%s》error: %s", name, err.Error())
 		return err
 	} else {
 		//Logger.DebugEx("[%s]《%s》has been removed.\n", ts, name)

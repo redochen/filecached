@@ -13,11 +13,7 @@ import (
 
 //监视目录
 func WatchDirectory(directory *Directory) {
-	defer func() {
-		if err := recover(); err != nil {
-			Logger.ErrorEx("WatchDirectory", "%v; stack: %s", err, debug.Stack())
-		}
-	}()
+	defer CheckPanic()
 
 	if nil == directory || len(directory.Path) == 0 || directory.Duration <= 0 {
 		return
