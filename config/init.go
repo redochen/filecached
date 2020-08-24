@@ -2,15 +2,16 @@ package config
 
 import (
 	"fmt"
+	"runtime"
+
 	"github.com/Unknwon/goconfig"
 	"github.com/redochen/filecached/models"
 	. "github.com/redochen/filecached/util"
-	. "github.com/redochen/tools/string"
-	"runtime"
+	CcStr "github.com/redochen/tools/string"
 )
 
 var (
-	Port                         = 16198
+	Port                         = 16198 //端口号
 	Depository                   = &models.Depository{}
 	Default    *models.Directory = nil   //默认仓库
 	UseGzip                      = false //是否启用GZip

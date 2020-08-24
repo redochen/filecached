@@ -2,11 +2,12 @@ package util
 
 import (
 	"errors"
-	. "github.com/redochen/tools/log"
 	"os"
+
+	CcLog "github.com/redochen/tools/log"
 )
 
-//创建目录
+//CreateDirectory 创建目录
 func CreateDirectory(directory string) error {
 	if len(directory) <= 0 {
 		return errors.New("[CreateDirectory] parameter is nil")
@@ -20,7 +21,7 @@ func CreateDirectory(directory string) error {
 	return nil
 }
 
-//物理删除文件
+//DeleteFilePhysically 物理删除文件
 func DeleteFilePhysically(name, path string) error {
 	if len(path) == 0 {
 		return errors.New("[DeleteFilePhysically] path can not be empty")
@@ -30,7 +31,7 @@ func DeleteFilePhysically(name, path string) error {
 	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		Logger.Errorf("os.Remove《%s》error: %s", name, err.Error())
+		CcLog.Errorf("os.Remove《%s》error: %s", name, err.Error())
 		return err
 	} else {
 		//Logger.DebugEx("[%s]《%s》has been deleted.\n", ts, name)
@@ -38,7 +39,7 @@ func DeleteFilePhysically(name, path string) error {
 	}
 }
 
-//移到文件到回收站
+//MoveFileToRecycleBin 移到文件到回收站
 func MoveFileToRecycleBin(name, path, recycleBin string) error {
 	if len(recycleBin) == 0 {
 		return errors.New("[MoveFileToRecycleBin] recycleBin can not be empty")
@@ -49,7 +50,7 @@ func MoveFileToRecycleBin(name, path, recycleBin string) error {
 	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		Logger.Errorf("os.Rename《%s》error: %s", name, err.Error())
+		CcLog.Errorf("os.Rename《%s》error: %s", name, err.Error())
 		return err
 	} else {
 		//Logger.DebugEx("[%s]《%s》has been removed.\n", ts, name)

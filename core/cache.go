@@ -1,17 +1,18 @@
 package core
 
 import (
-	cfg "github.com/redochen/filecached/config"
-	. "github.com/redochen/filecached/models"
-	"github.com/redochen/tools/file"
-	. "github.com/redochen/tools/function"
-	. "github.com/redochen/tools/log"
 	"os"
+
+	cfg "github.com/redochen/filecached/config"
+	"github.com/redochen/filecached/models"
+	"github.com/redochen/tools/file"
+	CcFunc "github.com/redochen/tools/function"
+	CcLog "github.com/redochen/tools/log"
 )
 
-//设置缓存
+//SetCache 设置缓存
 func SetCache(category, filename string, data []byte) bool {
-	defer CheckPanic()
+	defer CcFunc.CheckPanic()
 
 	d := getDirectory(category)
 	if nil == d {
@@ -27,7 +28,7 @@ func SetCache(category, filename string, data []byte) bool {
 
 	f, err := file.Open(p, true, false)
 	if err != nil {
-		Logger.Errorf("file.Open 《%s》 error: %s", p, err.Error())
+		CcLog.Errorf("file.Open 《%s》 error: %s", p, err.Error())
 		return false
 	}
 
@@ -35,16 +36,16 @@ func SetCache(category, filename string, data []byte) bool {
 
 	_, err = f.WriteEx(data, 0, cfg.UseGzip)
 	if err != nil {
-		Logger.Errorf("fe.WriteEx 《%s》 error: %s", p, err.Error())
+		CcLog.Errorf("fe.WriteEx 《%s》 error: %s", p, err.Error())
 		return false
 	}
 
 	return true
 }
 
-//获取缓存
+//GetCache 获取缓存
 func GetCache(category, filename string) []byte {
-	defer CheckPanic()
+	defer CcFunc.CheckPanic()
 
 	d := getDirectory(category)
 	if nil == d {
@@ -55,7 +56,7 @@ func GetCache(category, filename string) []byte {
 
 	f, err := file.Open(p, false, true)
 	if err != nil {
-		Logger.Errorf("file.Open 《%s》 error: %s", p, err.Error())
+		CcLog.Errorf("file.Open 《%s》 error: %s", p, err.Error())
 		return nil
 	}
 
@@ -63,7 +64,7 @@ func GetCache(category, filename string) []byte {
 
 	len, err := f.Size()
 	if len <= 0 || err != nil {
-		Logger.Errorf("fe.Size 《%s》 error: %s", p, err.Error())
+		CcLog.Errorf("fe.Size 《%s》 error: %s", p, err.Error())
 		return nil
 	}
 
@@ -71,14 +72,14 @@ func GetCache(category, filename string) []byte {
 
 	_, err = f.ReadEx(data, 0, cfg.UseGzip)
 	if err != nil {
-		Logger.Errorf("fe.ReadEx 《%s》 error: %s", p, err.Error())
+		CcLog.Errorf("fe.ReadEx 《%s》 error: %s", p, err.Error())
 	}
 
 	return data
 }
 
-//获取目录
-func getDirectory(category string) *Directory {
+//getDirectory 获取目录
+func getDirectory(category string) *models.Directory {
 	dir := cfg.Depository.GetDirectory(category)
 	if nil == dir {
 		return cfg.Default

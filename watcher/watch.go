@@ -2,18 +2,19 @@ package main
 
 import (
 	"errors"
-	. "github.com/redochen/filecached/models"
-	. "github.com/redochen/filecached/util"
-	. "github.com/redochen/tools/log"
 	"os"
 	"path/filepath"
-	"runtime/debug"
 	"time"
+
+	"github.com/redochen/filecached/models"
+	"github.com/redochen/filecached/util"
+	CcLog "github.com/redochen/tools/log"
+	CcFunc "github.com/redochen/tools/function"
 )
 
-//监视目录
-func WatchDirectory(directory *Directory) {
-	defer CheckPanic()
+//WatchDirectory 监视目录
+func WatchDirectory(directory *models.Directory) {
+	defer CcFunc.CheckPanic()
 
 	if nil == directory || len(directory.Path) == 0 || directory.Duration <= 0 {
 		return
@@ -26,7 +27,7 @@ func WatchDirectory(directory *Directory) {
 }
 
 //检查目录
-func checkDirectory(directory *Directory) {
+func checkDirectory(directory *models.Directory) {
 	if nil == directory ||
 		len(directory.Path) == 0 ||
 		directory.Duration <= 0 {
@@ -45,7 +46,7 @@ func checkDirectory(directory *Directory) {
 	})
 
 	if err != nil {
-		Logger.ErrorEx("checkDirectory", "filepath.Walk error: %s", err.Error())
+		CcLog.Error("checkDirectory", "filepath.Walk error: %s", err.Error())
 	}
 }
 
@@ -63,8 +64,8 @@ func removeFile(name, path, recycleBin string) error {
 	}
 
 	if len(recycleBin) > 0 {
-		return MoveFileToRecycleBin(name, path, recycleBin)
+		return util.MoveFileToRecycleBin(name, path, recycleBin)
 	} else {
-		return DeleteFilePhysically(name, path)
+		return util.DeleteFilePhysically(name, path)
 	}
 }

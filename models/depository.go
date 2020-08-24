@@ -3,15 +3,16 @@ package models
 import (
 	"encoding/json"
 	"fmt"
-	. "github.com/redochen/tools/string"
+
+	CcStr "github.com/redochen/tools/string"
 )
 
-//路径设置
+//Depository 路径设置
 type Depository struct {
 	Directories map[string]*Directory //目录设置
 }
 
-//获取目录
+//GetDirectory 获取目录
 func (d *Depository) GetDirectory(category string) *Directory {
 	if len(category) == 0 {
 		return nil
@@ -25,7 +26,7 @@ func (d *Depository) GetDirectory(category string) *Directory {
 	return dir
 }
 
-//设置目录
+//SetDirectory 设置目录
 func (d *Depository) SetDirectory(category string, directory *Directory) {
 	if len(category) == 0 || nil == directory {
 		return
@@ -38,7 +39,7 @@ func (d *Depository) SetDirectory(category string, directory *Directory) {
 	d.Directories[category] = directory
 }
 
-//解析目录设置
+//Parse 解析目录设置
 func (d *Depository) Parse(setting string) bool {
 	if len(setting) == 0 {
 		fmt.Println("[Parse] setting is empty.")
@@ -60,7 +61,7 @@ func (d *Depository) Parse(setting string) bool {
 	return true
 }
 
-//设置目录
+//Set 设置目录
 func (d *Depository) Set(name string, section map[string]string) {
 	if len(name) <= 0 || nil == section {
 		return
