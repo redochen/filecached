@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/hprose/hprose-go/hprose"
-	cfg "github.com/redochen/filecached/config"
-	. "github.com/redochen/filecached/core"
 	"net/http"
 	"strconv"
+
+	"github.com/hprose/hprose-go/hprose"
+	"github.com/redochen/filecached/config"
+	"github.com/redochen/filecached/core"
 )
 
 //主函数
@@ -14,9 +15,9 @@ func main() {
 	fmt.Println("[main] starting server...")
 
 	svc := hprose.NewHttpService()
-	svc.AddFunction("get", GetCache)
-	svc.AddFunction("post", SetCache)
+	svc.AddFunction("get", core.GetCache)
+	svc.AddFunction("post", core.SetCache)
 
-	fmt.Printf("[main] server started! listening on port: %s\n", strconv.Itoa(cfg.Port))
-	http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), svc)
+	fmt.Printf("[main] server started! listening on port: %s\n", strconv.Itoa(config.Port))
+	http.ListenAndServe(fmt.Sprintf(":%d", config.Port), svc)
 }

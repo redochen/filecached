@@ -8,8 +8,8 @@ import (
 
 	"github.com/redochen/filecached/models"
 	"github.com/redochen/filecached/util"
-	CcLog "github.com/redochen/tools/log"
 	CcFunc "github.com/redochen/tools/function"
+	"github.com/redochen/tools/log"
 )
 
 //WatchDirectory 监视目录
@@ -46,7 +46,7 @@ func checkDirectory(directory *models.Directory) {
 	})
 
 	if err != nil {
-		CcLog.Error("checkDirectory", "filepath.Walk error: %s", err.Error())
+		log.Error("checkDirectory", "filepath.Walk error: %s", err.Error())
 	}
 }
 
@@ -65,7 +65,7 @@ func removeFile(name, path, recycleBin string) error {
 
 	if len(recycleBin) > 0 {
 		return util.MoveFileToRecycleBin(name, path, recycleBin)
-	} else {
-		return util.DeleteFilePhysically(name, path)
 	}
+
+	return util.DeleteFilePhysically(name, path)
 }

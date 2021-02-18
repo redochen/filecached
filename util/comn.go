@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	CcLog "github.com/redochen/tools/log"
+	"github.com/redochen/tools/log"
 )
 
 //CreateDirectory 创建目录
@@ -31,12 +31,12 @@ func DeleteFilePhysically(name, path string) error {
 	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		CcLog.Errorf("os.Remove《%s》error: %s", name, err.Error())
+		log.Errorf("os.Remove《%s》error: %s", name, err.Error())
 		return err
-	} else {
-		//Logger.DebugEx("[%s]《%s》has been deleted.\n", ts, name)
-		return nil
 	}
+
+	//Logger.DebugEx("[%s]《%s》has been deleted.\n", ts, name)
+	return nil
 }
 
 //MoveFileToRecycleBin 移到文件到回收站
@@ -50,10 +50,10 @@ func MoveFileToRecycleBin(name, path, recycleBin string) error {
 	//ts := GetNowString("MM-dd hh:mm:ss", false)
 
 	if err != nil {
-		CcLog.Errorf("os.Rename《%s》error: %s", name, err.Error())
+		log.Errorf("os.Rename《%s》error: %s", name, err.Error())
 		return err
-	} else {
-		//Logger.DebugEx("[%s]《%s》has been removed.\n", ts, name)
-		return nil
 	}
+
+	//Logger.DebugEx("[%s]《%s》has been removed.\n", ts, name)
+	return nil
 }

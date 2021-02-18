@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	cfg "github.com/redochen/filecached/config"
 	"time"
+
+	"github.com/redochen/filecached/config"
 )
 
 func main() {
@@ -16,13 +17,13 @@ func main() {
 }
 
 func startWatcher() {
-	if nil == cfg.Depository ||
-		nil == cfg.Depository.Directories ||
-		len(cfg.Depository.Directories) == 0 {
+	if nil == config.Depository ||
+		nil == config.Depository.Directories ||
+		len(config.Depository.Directories) == 0 {
 		return
 	}
 
-	for _, dir := range cfg.Depository.Directories {
+	for _, dir := range config.Depository.Directories {
 		if len(dir.Path) == 0 || dir.Duration <= 0 {
 			continue
 		}

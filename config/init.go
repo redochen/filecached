@@ -6,15 +6,22 @@ import (
 
 	"github.com/Unknwon/goconfig"
 	"github.com/redochen/filecached/models"
-	. "github.com/redochen/filecached/util"
+	"github.com/redochen/filecached/util"
 	CcStr "github.com/redochen/tools/string"
 )
 
 var (
-	Port                         = 16198 //端口号
-	Depository                   = &models.Depository{}
-	Default    *models.Directory = nil   //默认仓库
-	UseGzip                      = false //是否启用GZip
+	// Port 端口号
+	Port = 16198
+
+	//Depository 仓库实例
+	Depository = &models.Depository{}
+
+	// Default 默认仓库
+	Default *models.Directory = nil
+
+	//UseGzip 是否启用GZip
+	UseGzip = false
 )
 
 //初始化配置
@@ -66,8 +73,8 @@ func init() {
 				continue
 			}
 
-			CreateDirectory(v.Path)
-			CreateDirectory(v.RecycleBin)
+			util.CreateDirectory(v.Path)
+			util.CreateDirectory(v.RecycleBin)
 		}
 	}
 

@@ -3,11 +3,11 @@ package core
 import (
 	"os"
 
-	cfg "github.com/redochen/filecached/config"
+	"github.com/redochen/filecached/config"
 	"github.com/redochen/filecached/models"
 	"github.com/redochen/tools/file"
 	CcFunc "github.com/redochen/tools/function"
-	CcLog "github.com/redochen/tools/log"
+	"github.com/redochen/tools/log"
 )
 
 //SetCache 设置缓存
@@ -28,15 +28,15 @@ func SetCache(category, filename string, data []byte) bool {
 
 	f, err := file.Open(p, true, false)
 	if err != nil {
-		CcLog.Errorf("file.Open 《%s》 error: %s", p, err.Error())
+		log.Errorf("file.Open 《%s》 error: %s", p, err.Error())
 		return false
 	}
 
 	defer f.Close()
 
-	_, err = f.WriteEx(data, 0, cfg.UseGzip)
+	_, err = f.WriteEx(data, 0, config.UseGzip)
 	if err != nil {
-		CcLog.Errorf("fe.WriteEx 《%s》 error: %s", p, err.Error())
+		log.Errorf("fe.WriteEx 《%s》 error: %s", p, err.Error())
 		return false
 	}
 
@@ -56,7 +56,7 @@ func GetCache(category, filename string) []byte {
 
 	f, err := file.Open(p, false, true)
 	if err != nil {
-		CcLog.Errorf("file.Open 《%s》 error: %s", p, err.Error())
+		log.Errorf("file.Open 《%s》 error: %s", p, err.Error())
 		return nil
 	}
 
@@ -64,15 +64,15 @@ func GetCache(category, filename string) []byte {
 
 	len, err := f.Size()
 	if len <= 0 || err != nil {
-		CcLog.Errorf("fe.Size 《%s》 error: %s", p, err.Error())
+		log.Errorf("fe.Size 《%s》 error: %s", p, err.Error())
 		return nil
 	}
 
 	data := make([]byte, len)
 
-	_, err = f.ReadEx(data, 0, cfg.UseGzip)
+	_, err = f.ReadEx(data, 0, config.UseGzip)
 	if err != nil {
-		CcLog.Errorf("fe.ReadEx 《%s》 error: %s", p, err.Error())
+		log.Errorf("fe.ReadEx 《%s》 error: %s", p, err.Error())
 	}
 
 	return data
@@ -80,10 +80,10 @@ func GetCache(category, filename string) []byte {
 
 //getDirectory 获取目录
 func getDirectory(category string) *models.Directory {
-	dir := cfg.Depository.GetDirectory(category)
+	dir := config.Depository.GetDirectory(category)
 	if nil == dir {
-		return cfg.Default
-	} else {
-		return dir
+		return config.Default
 	}
+
+	return dir
 }

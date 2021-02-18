@@ -1,5 +1,6 @@
 package models
 
+//Directory 目录类
 type Directory struct {
 	Category   string `json:"category"`   //分类名称
 	Path       string `json:"path"`       //路径设置
